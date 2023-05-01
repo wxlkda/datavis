@@ -12,7 +12,7 @@ This program is a visualization of different algorithmic design techniques in th
 
 ## Usage
 
- 1. Visit [my site](alwalidkhan.com) and scroll down to "**Projects**".
+ 1. Visit [my site](https://alwalidkhan.com/) and scroll down to "**Projects**".
  2. Go to "**Data Visualizer**" and either select the link (which opens a new link) or view the source from github
  3. If **array algorithm** is selected:
 	 - Enter the array size
