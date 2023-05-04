@@ -4,11 +4,14 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="main.css">
+        
         <link rel="icon" href="../assets/logo.png">
         <title>Data Visualizer</title>
     </head>
     <body>
+        <script src="main.js"></script>
         <div id = "content">
+
             <div id = "intro">
                 <div class = "intro-title">
                     Data Visualizer
@@ -18,11 +21,16 @@
                     Select one of the buttons on the side to pick between <b>sorting</b> and <b>traversal</b>.
                 </div>
             </div>
-            
+            <div id = "sort">
+                <div class = "sort-title">/sort</div>
+            </div>
+            <div id = "traverse">
+                <div class = "traverse-title">/traverse</div>
+            </div>
         </div>
         <div id = "selection-buttons">
-            <div class = "selection-button sort">Sort</div>
-            <div class = "selection-button traversal">Traverse</div>
+            <div id = "sortButton" class = "selection-button sort">Sort</div>
+            <div id = "traverseButton" class = "selection-button traversal">Traverse</div>
         </div>
     </body>
 </html>
