@@ -5,6 +5,10 @@
   --background: #0a192f; /*background*/
   --highlight-color: #112b52; /*self-explanatory*/
 }
+::selection {
+  background: var(--highlight-color);
+}
+
 
 @font-face {
   font-family: 'NTR Regular';
@@ -12,8 +16,6 @@
   font-weight: normal;
   src: local('NTR Regular'), url('../assets/NTR-Regular.ttf') format('truetype');
 }
-
-
 
 
 body {
@@ -130,3 +132,33 @@ body {
   font-weight: bold;
 }
 
+#option-text {
+  margin-top: -20px;
+  font-size: 1.7rem;
+  color: var(--dark-gray);
+}
+
+select {
+  font-size: 1.5rem;
+  color: var(--cloudy-white);
+  background: transparent;
+  font-family: "NTR Regular";
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+option {
+  background: var(--background);
+}
+
+
+#array-size {
+  padding: 5px 5px;
+  font-size: 1rem;
+  color: var(--cloudy-white);
+  background: transparent;
+  font-weight: bold;
+  border: 1px solid white;
+  border-radius: 5px;
+}
