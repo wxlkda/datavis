@@ -4,12 +4,14 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="main.css">
-        
         <link rel="icon" href="../assets/logo.png">
         <title>Data Visualizer</title>
+        <script src="main.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </head>
     <body>
-        <script src="main.js"></script>
+        
         <div id = "content">
 
             <div id = "intro">
@@ -51,18 +53,22 @@
                         <div id="algo-name">
                             Bubble Sort: 
                         </div>
-                        Bubble sort, sometimes referred to as sinking sort,
-                        is a simple sorting algorithm that repeatedly steps
-                        through the input list element by element, comparing
-                        the current element with the one after it, swapping their
-                        values if needed. Wikipedia
+                        Bubble Sort is an elementary sorting algorithm that work
+                        by repeatedly stepping through the list, comparing each
+                        pair of adjacent elements, and swapping them if they are
+                        in the wrong order. The algorithm gets its name from the 
+                        way smaller elements "bubble" to the top of the list 
+                        as the larger elements "sink" to the bottom . The process
+                        is repeated until the entire list is sorted.
                     </div>
                     <div id="algo-complexity">
-                        <div class="time-complexity">Time Complexity:</div>
-                        bruh
+                        <div class="time-complexity">Time Complexity:<br></div>
+                        Best Case: <div class = "notation">\(\Omega(n)\) </div>
+                        Average Case: <div class = "notation">\(\Theta(n^2)\)</div>
+                        Worst Case: <div class = "notation">\(\mathcal{O}(n^2)\)</div>
                         <br>
-                        <br>
-                        <div class="space-complexity">Space Complexity:</div>
+                        <div class="space-complexity">Space Complexity: <br></div>
+                        All Cases: <div class = "notation">\(\mathcal{O}(1)\)</div>
                     </div>
                 </div>
 
