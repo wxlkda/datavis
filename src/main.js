@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var sortDiv = document.getElementById("sort");
     var traverseDiv = document.getElementById("traverse");
   
-    const arraySize = document.getElementById("array-size");
+    var arraySize = document.getElementById("array-size");
+    var minElementSize = document.getElementById("min-element-size");
+    var maxElementSize = document.getElementById("max-element-size");
 
 
     var selected = 0;
@@ -21,6 +23,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
         value = 100;
       }
       arraySize.value = value;
+    });
+
+    //Handling if min and max are in range of each other
+
+    minElementSize.addEventListener("blur", () => {
+      let value = parseInt(minElementSize.value);
+      if (isNaN(value) || value >= maxElementSize.value) {
+        value = maxElementSize.value - 1;
+      }
+      minElementSize.value = value;
+    });
+
+    maxElementSize.addEventListener("blur", () => {
+      let value = parseInt(maxElementSize.value);
+      if (isNaN(value) || value <= minElementSize.value) {
+        value = minElementSize.value + 1;
+      }
+      maxElementSize.value = value;
     });
   
     function toggleSortClass() {
