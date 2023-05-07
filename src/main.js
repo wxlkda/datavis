@@ -5,10 +5,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var sortDiv = document.getElementById("sort");
     var traverseDiv = document.getElementById("traverse");
   
+    const arraySize = document.getElementById("array-size");
+
+
     var selected = 0;
   
     sortButton.addEventListener('click', toggleSortClass);
     traverseButton.addEventListener('click', toggleTraverseClass);
+
+    arraySize.addEventListener("blur", () => {
+      let value = parseInt(arraySize.value);
+      if (isNaN(value) || value < 2) {
+        value = 2;
+      } else if (value > 100) {
+        value = 100;
+      }
+      arraySize.value = value;
+    });
   
     function toggleSortClass() {
       selected = 0;

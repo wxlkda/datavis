@@ -154,14 +154,15 @@ option {
 
 
 #array-size {
+  border: 0;
+  outline: 0;
+  border-bottom: 1px solid var(--cloudy-white);
   font-family: "NTR Regular";
   padding: 0px 5px;
   font-size: 1.1rem;
   color: var(--cloudy-white);
   background: transparent;
   font-weight: bold;
-  border: 1px solid white;
-  border-radius: 5px;
 }
 
 #algo-frame {
