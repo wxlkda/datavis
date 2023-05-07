@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var canvas = document.getElementById("algo-frame");
     var ctx = canvas.getContext("2d");
 
-
+    createArray();
+    
     resetButton.addEventListener('click', createArray);
     sortButton.addEventListener('click', toggleSortClass);
     traverseButton.addEventListener('click', toggleTraverseClass);
@@ -25,13 +26,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
     arraySize.addEventListener("input", () => {
       let value = parseInt(arraySize.value);
-      let originalValue = value;
       if (isNaN(value) || value < 2) {
         value = 2;
       } else if (value > 100) {
         value = 100;
       }
       arraySize.value = value;
+      createArray();
     });
 
   

@@ -212,3 +212,33 @@ footer {
   color: var(--dark-gray);
   font-family: "NTR Regular";
 }
+
+.flex-container {
+  display: flex;
+}
+
+#algo-complexity,
+#algo-desc {
+  text-align: justify;
+  line-height: 1.5;
+  max-width: 580px;
+  margin-top: 20px;
+  color: var(--dark-gray);
+  font-family: "NTR Regular";
+  font-size: 1.3rem;
+  display: inline-block; 
+  margin-right: 20px;
+}
+
+.time-complexity,
+.space-complexity,
+#algo-name {
+  display: inline;
+  font-size: 1.5rem;
+  color: var(--cloudy-white);
+  font-family: "NTR Regular";
+  font-weight: bold;
+}
+
+
+
