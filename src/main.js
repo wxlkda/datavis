@@ -6,8 +6,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var traverseDiv = document.getElementById("traverse");
   
     var arraySize = document.getElementById("array-size");
-    var minElementSize = document.getElementById("min-element-size");
-    var maxElementSize = document.getElementById("max-element-size");
+    var minElementSize = 1;
+    var maxElementSize = 100;
+
+    var resetButton = document.getElementById("reset-button");
 
     var selected = 0;
     var arr = [];
@@ -15,42 +17,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var canvas = document.getElementById("algo-frame");
     var ctx = canvas.getContext("2d");
 
-  
+
+    resetButton.addEventListener('click', createArray);
     sortButton.addEventListener('click', toggleSortClass);
     traverseButton.addEventListener('click', toggleTraverseClass);
 
-    arraySize.addEventListener("blur", () => {
+    
+    arraySize.addEventListener("input", () => {
       let value = parseInt(arraySize.value);
+      let originalValue = value;
       if (isNaN(value) || value < 2) {
         value = 2;
       } else if (value > 100) {
         value = 100;
       }
       arraySize.value = value;
-      createArray();
     });
 
-    //Handling if min and max are in range of each other
-
-    minElementSize.addEventListener("blur", () => {
-      let value = parseInt(minElementSize.value);
-      if (isNaN(value) || value >= maxElementSize.value) {
-        value = maxElementSize.value - 5;
-      } else if (value < 1) {
-        value = 1;
-      }
-      minElementSize.value = value;
-    });
-
-    maxElementSize.addEventListener("blur", () => {
-      let value = parseInt(maxElementSize.value);
-      if (isNaN(value) || value < minElementSize.value + 5) {
-        value = minElementSize.value + 5;
-      } else if (value < 6) {
-        value = 6;
-      }
-      maxElementSize.value = value;
-    });
   
     function toggleSortClass() {
       selected = 0;
@@ -64,18 +47,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
   
     function createArray() {
       const arraySizeValue = parseInt(arraySize.value);
-      const minElementSizeValue = parseInt(minElementSize.value);
-      const maxElementSizeValue = parseInt(maxElementSize.value);
   
       arr = new Array(arraySizeValue)
         .fill(0)
         .map(() =>
           Math.floor(
-            Math.random() * (maxElementSizeValue - minElementSizeValue + 1)
-          ) + minElementSizeValue
+            Math.random() * (maxElementSize - minElementSize + 1)
+          ) + minElementSize
         );
 
-      console.log(arr);
+
       drawArray();
     }
 
@@ -84,7 +65,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       const canvasHeight = canvas.height;
   
       const barWidth = canvasWidth / arr.length;
-      const maxBarHeight = Math.max(...arr);
+      const maxBarHeight = maxElementSize;
       const heightFactor = canvasHeight / maxBarHeight;
   
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
