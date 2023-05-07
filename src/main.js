@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     minElementSize.addEventListener("blur", () => {
       let value = parseInt(minElementSize.value);
       if (isNaN(value) || value >= maxElementSize.value) {
-        value = maxElementSize.value - 1;
+        value = maxElementSize.value - 5;
       } else if (value < 1) {
         value = 1;
       }
@@ -44,10 +44,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     maxElementSize.addEventListener("blur", () => {
       let value = parseInt(maxElementSize.value);
-      if (isNaN(value) || value <= minElementSize.value) {
-        value = minElementSize.value + 1;
-      } else if (value < 5) {
-        value = 5;
+      if (isNaN(value) || value < minElementSize.value + 5) {
+        value = minElementSize.value + 5;
+      } else if (value < 6) {
+        value = 6;
       }
       maxElementSize.value = value;
     });
