@@ -165,7 +165,7 @@ option {
 }
 
 #algo-frame {
-  border: 1px solid var(--dark-gray);
+  border: 2px solid var(--dark-gray);
 }
 
 .control-buttons {
@@ -175,16 +175,33 @@ option {
   width: 1000px;
 }
 .button {
+  font-family: "NTR Regular";
+  color: var(--cloudy-white);
   display: inline-block;
   white-space: nowrap;
-  border-radius: 4px;
+  border-radius: 9px;
   width: 150px;
   height: 40px;
-  border: 1px solid var(--cloudy-white);
+  border: 3px solid var(--dark-gray);
   font-size: 1.2rem;
   font-weight: bolder;
   align-content: center;
   justify-content: center;
   text-align: center;
 
+}
+
+footer {
+  top: 94%;
+  left: 45%;
+  margin-top: 90px;
+  margin-bottom: 10px;
+}
+
+.footer-text {
+  margin-top: -4px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--dark-gray);
+  font-family: "NTR Regular";
 }
