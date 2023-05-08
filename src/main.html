@@ -27,7 +27,7 @@
                 <div class = "sort-title">/sort</div>
                 <div id = "option-text">
                     Algorithm: 
-                    <select name = "algo-button">
+                    <select name = "algo-button" id = "algo-select">
                         <option value="bubble">Bubble Sort</option>
                         <option value="quick">Quick Sort</option>
                         <option value="merge">Merge Sort</option>
@@ -63,12 +63,13 @@
                     </div>
                     <div id="algo-complexity">
                         <div class="time-complexity">Time Complexity:<br></div>
-                        Best Case: <div class = "notation">\(\Omega(n)\) </div>
-                        Average Case: <div class = "notation">\(\Theta(n^2)\)</div>
-                        Worst Case: <div class = "notation">\(\mathcal{O}(n^2)\)</div>
+                        Best Case: <div class = "notation" id = "best-case">\(\Omega(n)\) </div>
+                        Average Case: <div class = "notation" id = "average-case">\(\Theta(n^2)\)</div>
+                        <br>
+                        Worst Case: <div class = "notation" id = "worst-case">\(\mathcal{O}(n^2)\)</div>
                         <br>
                         <div class="space-complexity">Space Complexity: <br></div>
-                        All Cases: <div class = "notation">\(\mathcal{O}(1)\)</div>
+                        Worst Case: <div class = "notation" id = "space-worst">\(\mathcal{O}(1)\)</div>
                     </div>
                 </div>
 
