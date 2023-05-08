@@ -138,6 +138,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
             await bogoSort(arr);
             break;
       }
+      for (let i = 0; i < arr.length; i++) {
+        drawArray(bubble = [false, 0], quick = false, merge = false, insertion = false, selection = false, radix = false, bogo = false,clear = [true, i]);
+        await sleep(30);
+      }
+
       }
   
       drawArray();
@@ -162,7 +167,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             drawArray(bubble = [true, j + 1]);
   
             // Wait for a short duration before proceeding
-            await sleep(14);
+            await sleep(60);
           }
         }
         if (!swapped) break;
@@ -252,7 +257,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         ctx.fillStyle = "#ccd6f6"; // Move this line here
         if (clear[0]) {
           if (index === clear[1]) {
-            ctx.fillStyle = "green";
+            ctx.fillStyle = "#34b233";
           }
         }
         if (bubble[0]) {
