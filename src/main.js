@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var arraySize = document.getElementById("array-size");
     var algoSelect = document.getElementById("algo-select");
     var resetButton = document.getElementById("reset-button");
+    var startButton = document.getElementById("start-button")
     var canvas = document.getElementById("algo-frame");
 
     var ctx = canvas.getContext("2d");
@@ -13,6 +14,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var minElementSize = 1;
     var maxElementSize = 100;
     var selected = 0;
+
+    var sortingInProgress = false;
+    var resetRequested = false;
 
     var arr = [];
 
@@ -61,10 +65,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     
     
-    resetButton.addEventListener('click', createArray);
+    resetButton.addEventListener('click', resetArray);
     sortButton.addEventListener('click', toggleSortClass);
     traverseButton.addEventListener('click', toggleTraverseClass);
+    startButton.addEventListener("click", sortArray);
 
+    
     
     arraySize.addEventListener("input", () => {
       let value = parseInt(arraySize.value);
@@ -105,6 +111,98 @@ document.addEventListener('DOMContentLoaded', (event) => {
       updateButtonClasses();
     }
   
+    async function sortArray() {
+      const selectedAlgorithm = algoSelect.value;
+  
+      if (!sortingInProgress) {
+        switch (selectedAlgorithm) {
+          case "bubble":
+            await bubbleSort(arr);
+            break;
+          case "quick":
+            await quickSort(arr, 0, arr.length - 1);
+            break;
+          case "merge":
+            await mergeSort(arr, 0, arr.length - 1);
+            break;
+          case "insertion":
+            await insertionSort(arr);
+            break;
+          case "selection":
+            await selectionSort(arr);
+            break;
+          case "radix":
+            await radixSort(arr);
+            break;
+          case "bogo":
+            await bogoSort(arr);
+            break;
+      }
+      }
+  
+      drawArray();
+    }
+
+    async function bubbleSort(arr) {
+      const n = arr.length;
+      sortingInProgress = true;
+      for (let i = 0; i < n - 1; i++) {
+        let swapped = false;
+        for (let j = 0; j < n - i - 1; j++) {
+          if (arr[j] > arr[j + 1]) {
+            if (resetRequested) {
+              resetRequested = false;
+              return;
+            }
+            // Swap elements
+            [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+            swapped = true;
+  
+            //Second elem is max elem in arr
+            drawArray(bubble = [true, j + 1]);
+  
+            // Wait for a short duration before proceeding
+            await sleep(14);
+          }
+        }
+        if (!swapped) break;
+      }
+      sortingInProgress = false;
+    }
+
+    async function quickSort(arr, low, high) {
+      if (low < high) {
+        const pi = await partition(arr, low, high);
+        await quickSort(arr, low, pi - 1);
+        await quickSort(arr, pi + 1, high);
+      }
+    }
+
+    async function mergeSort(arr, left, right) {
+      // ... (mergeSort implementation) ...
+    }
+  
+    async function insertionSort(arr) {
+      // ... (insertionSort implementation) ...
+    }
+  
+    async function selectionSort(arr) {
+      // ... (selectionSort implementation) ...
+    }
+  
+    async function radixSort(arr) {
+      // ... (radixSort implementation) ...
+    }
+  
+    async function bogoSort(arr) {
+      // ... (bogoSort implementation) ...
+    }
+    
+    function sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+
     function createArray() {
       const arraySizeValue = parseInt(arraySize.value);
   
@@ -120,19 +218,49 @@ document.addEventListener('DOMContentLoaded', (event) => {
       drawArray();
     }
 
-    function drawArray()  {
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
+    function resetArray() {
+      if (sortingInProgress) {
+        resetRequested = true;
+        sortingInProgress = false;
+      }
+      const arraySizeValue = parseInt(arraySize.value);
   
+      arr = new Array(arraySizeValue)
+        .fill(0)
+        .map(() =>
+          Math.floor(
+            Math.random() * (maxElementSize - minElementSize + 1)
+          ) + minElementSize
+        );
+
+
+      drawArray();
+    }
+    
+    function drawArray(bubble = [false, 0], quick = false, merge = false, insertion = false, selection = false, radix = false, bogo = false, clear = [false, 0])  {
+      const canvasWidth = canvas.width - 20;
+      const canvasHeight = canvas.height;
+    
       const barWidth = canvasWidth / arr.length;
       const maxBarHeight = maxElementSize;
       const heightFactor = canvasHeight / maxBarHeight;
-  
+    
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-  
+    
       arr.forEach((value, index) => {
         const barHeight = value * heightFactor;
-        ctx.fillStyle = "#ccd6f6";
+        ctx.fillStyle = "#ccd6f6"; // Move this line here
+        if (clear[0]) {
+          if (index === clear[1]) {
+            ctx.fillStyle = "green";
+          }
+        }
+        if (bubble[0]) {
+          if (index === bubble[1]) {
+            ctx.fillStyle = "red";
+          }
+        }
+        
         ctx.fillRect(
           index * barWidth,
           canvasHeight - barHeight,
