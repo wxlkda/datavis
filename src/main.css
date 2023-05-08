@@ -153,8 +153,7 @@ option {
 }
 
 
-#min-element-size,
-#max-element-size,
+#delay,
 #array-size {
   border: 0;
   outline: 0;
@@ -170,7 +169,6 @@ option {
 
 #algo-frame {
   border: 2px solid var(--dark-gray);
-  padding: 50px 10px 0px 10px; /* top, right, bottom, left */
 }
 
 .control-buttons {

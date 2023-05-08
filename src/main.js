@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var resetButton = document.getElementById("reset-button");
     var startButton = document.getElementById("start-button")
     var canvas = document.getElementById("algo-frame");
+    var delay = document.getElementById("delay");
 
     var ctx = canvas.getContext("2d");
 
@@ -83,7 +84,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
       createArray();
     });
 
+    delay.addEventListener("blur", function() {
+      let value = delay.value;
+      if (isNaN(value) || value < 10) {
+        value = 10;
+      } else if (value > 60) {
+        value = 60;
+      }
+    });
+    
     algoSelect.addEventListener("change", function() {
+      resetArray();
       document.getElementById("algo-desc").innerHTML= 
       `
           <div id="algo-name">
@@ -117,30 +128,36 @@ document.addEventListener('DOMContentLoaded', (event) => {
       if (!sortingInProgress) {
         switch (selectedAlgorithm) {
           case "bubble":
-            await bubbleSort(arr);
+            disableInput()
+            await startBubbleSort(arr);
+            enableInput();
             break;
           case "quick":
+            disableInput()
             await quickSort(arr, 0, arr.length - 1);
+            enableInput();
             break;
           case "merge":
-            await mergeSort(arr, 0, arr.length - 1);
+            disableInput();
+            await startMergeSort(arr);
+            enableInput();
             break;
           case "insertion":
+            disableInput()
             await insertionSort(arr);
             break;
           case "selection":
+            disableInput()
             await selectionSort(arr);
             break;
           case "radix":
+            disableInput()
             await radixSort(arr);
             break;
           case "bogo":
+            disableInput()
             await bogoSort(arr);
             break;
-      }
-      for (let i = 0; i < arr.length; i++) {
-        drawArray(bubble = [false, 0], quick = false, merge = false, insertion = false, selection = false, radix = false, bogo = false,clear = [true, i]);
-        await sleep(30);
       }
 
       }
@@ -148,9 +165,50 @@ document.addEventListener('DOMContentLoaded', (event) => {
       drawArray();
     }
 
+    function disableInput() {
+      algoSelect.disabled = true;
+      arraySize.disabled = true;
+      delay.disabled = true;
+      startButton.disabled = true;
+    }
+
+    function enableInput() {
+      algoSelect.disabled = false;
+      arraySize.disabled = false;
+      delay.disabled = false;
+      startButton.disabled = false;
+    }
+
+    async function startMergeSort(arr) {
+      sortingInProgress = true;
+      
+      await mergeSort(arr, 0, arr.length - 1);
+      
+      sortingInProgress = false;
+    }
+    
+    async function mergeSort(arr, left, right) {
+      if (left < right) {
+        const middle = Math.floor((left + right) / 2);
+    
+        await mergeSort(arr, left, middle);
+        await mergeSort(arr, middle + 1, right);
+    
+        await merge(arr, left, middle, right);
+      }
+    }
+    
+    async function startBubbleSort(arr) {
+      sortingInProgress = true;
+
+      await bubbleSort(arr);
+
+      sortingInProgress = false;
+    }
+
+    
     async function bubbleSort(arr) {
       const n = arr.length;
-      sortingInProgress = true;
       for (let i = 0; i < n - 1; i++) {
         let swapped = false;
         for (let j = 0; j < n - i - 1; j++) {
@@ -163,16 +221,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
             swapped = true;
   
-            //Second elem is max elem in arr
             drawArray(bubble = [true, j + 1]);
-  
-            // Wait for a short duration before proceeding
-            await sleep(60);
+            await sleep(delay.value);
           }
         }
         if (!swapped) break;
       }
-      sortingInProgress = false;
     }
 
     async function quickSort(arr, low, high) {
@@ -181,11 +235,63 @@ document.addEventListener('DOMContentLoaded', (event) => {
         await quickSort(arr, low, pi - 1);
         await quickSort(arr, pi + 1, high);
       }
+      if (low >= high) {
+        enableInput();
+      }
     }
 
-    async function mergeSort(arr, left, right) {
-      // ... (mergeSort implementation) ...
+    async function merge(arr, left, mid, right) {
+      const n1 = mid - left + 1;
+      const n2 = right - mid;
+    
+      let leftArr = new Array(n1);
+      let rightArr = new Array(n2);
+    
+      for (let i = 0; i < n1; i++) {
+        leftArr[i] = arr[left + i];
+      }
+      for (let j = 0; j < n2; j++) {
+        rightArr[j] = arr[mid + 1 + j];
+      }
+    
+      let i = 0;
+      let j = 0;
+      let k = left;
+    
+      while (i < n1 && j < n2) {
+        if (leftArr[i] <= rightArr[j]) {
+          arr[k] = leftArr[i];
+          i++;
+        } else {
+          arr[k] = rightArr[j];
+          j++;
+        }
+        k++;
+    
+        await sleep(delay.value);
+        drawArray();
+      }
+    
+      while (i < n1) {
+        arr[k] = leftArr[i];
+        i++;
+        k++;
+    
+        await sleep(delay.value);
+        drawArray();
+      }
+    
+      while (j < n2) {
+        arr[k] = rightArr[j];
+        j++;
+        k++;
+    
+        await sleep(delay.value);
+        drawArray();
+      }
     }
+    
+    
   
     async function insertionSort(arr) {
       // ... (insertionSort implementation) ...
@@ -240,10 +346,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
       drawArray();
+      enableInput();
     }
     
-    function drawArray(bubble = [false, 0], quick = false, merge = false, insertion = false, selection = false, radix = false, bogo = false, clear = [false, 0])  {
-      const canvasWidth = canvas.width - 20;
+    function drawArray(bubble = [false, 0], quick = false, merge = false, insertion = false, selection = false, radix = false, bogo = false)  {
+      const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
     
       const barWidth = canvasWidth / arr.length;
@@ -255,11 +362,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
       arr.forEach((value, index) => {
         const barHeight = value * heightFactor;
         ctx.fillStyle = "#ccd6f6"; // Move this line here
-        if (clear[0]) {
-          if (index === clear[1]) {
-            ctx.fillStyle = "#34b233";
-          }
-        }
         if (bubble[0]) {
           if (index === bubble[1]) {
             ctx.fillStyle = "red";
