@@ -16,8 +16,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     var arr = [];
 
-    
-
     var algoInfo =
       {
         "bubble": {
@@ -57,7 +55,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
       };
 
-    createArray();
+      arraySize.value = Math.floor(Math.random() * (100 - 2 + 1)) + 2;
+      createArray();
+      
+
+    
     
     resetButton.addEventListener('click', createArray);
     sortButton.addEventListener('click', toggleSortClass);
