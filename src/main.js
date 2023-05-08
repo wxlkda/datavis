@@ -149,15 +149,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
             break;
           case "selection":
             disableInput()
-            await selectionSort(arr);
+            await startSelectionSort(arr);
+            enableInput();
             break;
           case "radix":
             disableInput()
-            await radixSort(arr);
+            await startRadixSort();
+            enableInput();
             break;
           case "bogo":
             disableInput()
-            await bogoSort(arr);
+            await startBogoSort(arr);
+            enableInput();
             break;
       }
 
@@ -203,7 +206,38 @@ document.addEventListener('DOMContentLoaded', (event) => {
       await insertionSort(arr);
       sortingInProgress = false;
     }
+
+    async function startSelectionSort(arr) {
+      sortingInProgress = true;
+      await selectionSort(arr);
+      sortingInProgress = false;
+    }
+
+    async function startRadixSort() {
+      sortingInProgress = true;
+      await radixSort(arr);
+      sortingInProgress = false;
+    }
+
+    async function startBogoSort(arr) {
+      sortingInProgress = true;
+      await bogoSort(arr);
+      sortingInProgress = false;
+    }
     
+
+    async function bogoSort(arr) {
+      while (!isSorted(arr)) {
+        if (resetRequested) {
+          resetRequested = false;
+          return;
+        }
+        arr = shuffle(arr);
+        drawArray();
+        await sleep(delay.value);
+      }
+    }
+
 
     async function insertionSort(arr) {
       for (let i = 1; i < arr.length; i++) {
@@ -238,7 +272,42 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
     }
     
+    async function radixSort(arr) {
+      let maxVal = Math.max(...arr);
+      let maxExponent = Math.floor(Math.log10(maxVal)) + 1;
     
+      for (let exponent = 0; exponent < maxExponent; exponent++) {
+        let buckets = Array.from({ length: 10 }, () => []);
+        for (let number of arr) {
+          let digit = Math.floor((number / Math.pow(10, exponent)) % 10);
+          buckets[digit].push(number);
+        }
+        let newArray = [].concat(...buckets);
+        for (let i = 0; i < arr.length; i++) {
+          arr[i] = newArray[i];
+        }
+        drawArray();
+        await sleep(delay.value);
+      }
+    }
+    
+    async function selectionSort(arr) {
+      for (let i = 0; i < arr.length - 1; i++) {
+        let minIdx = i;
+        for (let j = i + 1; j < arr.length; j++) {
+          if (arr[j] < arr[minIdx]) {
+            minIdx = j;
+          }
+        }
+        if (minIdx !== i) {
+          [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];
+    
+          drawArray();
+          await sleep(delay.value);
+        }
+      }
+    }
+
 
     
     async function bubbleSort(arr) {
@@ -271,6 +340,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
     }
 
+    
+
     async function partition(arr, low, high) {
       let pivot = arr[high];
       let i = low - 1;
@@ -290,7 +361,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
       return i + 1;
     }
 
+    function isSorted(arr) {
+      for (let i = 1; i < arr.length; i++) {
+        if (arr[i - 1] > arr[i]) {
+          return false;
+        }
+      }
+      return true;
+    }
     
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+    
+
     async function merge(arr, left, mid, right) {
       const n1 = mid - left + 1;
       const n2 = right - mid;
@@ -343,19 +431,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
     
   
-  
-    async function selectionSort(arr) {
-      // ... (selectionSort implementation) ...
-    }
-  
-    async function radixSort(arr) {
-      // ... (radixSort implementation) ...
-    }
-  
-    async function bogoSort(arr) {
-      // ... (bogoSort implementation) ...
-    }
-    
+
+
     function sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
