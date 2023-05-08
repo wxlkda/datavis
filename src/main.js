@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         value = 60;
       }
     });
-    
+
     algoSelect.addEventListener("change", function() {
       resetArray();
       document.getElementById("algo-desc").innerHTML= 
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             break;
           case "quick":
             disableInput()
-            await quickSort(arr, 0, arr.length - 1);
+            await startQuickSort(arr);
             enableInput();
             break;
           case "merge":
@@ -181,9 +181,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     async function startMergeSort(arr) {
       sortingInProgress = true;
-      
       await mergeSort(arr, 0, arr.length - 1);
-      
+      sortingInProgress = false;
+    }
+
+    async function startQuickSort(arr) {
+      sortingInProgress = true;
+      await quickSort(arr, 0, arr.length - 1);
+      sortingInProgress = false;
+    }
+
+    async function startBubbleSort(arr) {
+      sortingInProgress = true;
+      await bubbleSort(arr);
       sortingInProgress = false;
     }
     
@@ -198,13 +208,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
     }
     
-    async function startBubbleSort(arr) {
-      sortingInProgress = true;
-
-      await bubbleSort(arr);
-
-      sortingInProgress = false;
-    }
+    
 
     
     async function bubbleSort(arr) {
@@ -240,6 +244,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
     }
 
+    async function partition(arr, low, high) {
+      let pivot = arr[high];
+      let i = low - 1;
+    
+      for (let j = low; j <= high - 1; j++) {
+        if (arr[j] < pivot) {
+          i++;
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+          drawArray();
+          await sleep(delay.value);
+        }
+      }
+      [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+      drawArray();
+      await sleep(delay.value);
+    
+      return i + 1;
+    }
+
+    
     async function merge(arr, left, mid, right) {
       const n1 = mid - left + 1;
       const n2 = right - mid;
