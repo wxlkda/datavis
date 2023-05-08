@@ -124,9 +124,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
   
     async function sortArray() {
       const selectedAlgorithm = algoSelect.value;
-  
       if (!sortingInProgress) {
         switch (selectedAlgorithm) {
+          
           case "bubble":
             disableInput()
             await startBubbleSort(arr);
@@ -144,7 +144,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             break;
           case "insertion":
             disableInput()
-            await insertionSort(arr);
+            await startInsertionSort(arr);
+            enableInput();
             break;
           case "selection":
             disableInput()
@@ -196,7 +197,36 @@ document.addEventListener('DOMContentLoaded', (event) => {
       await bubbleSort(arr);
       sortingInProgress = false;
     }
+
+    async function startInsertionSort(arr) {
+      sortingInProgress = true;
+      await insertionSort(arr);
+      sortingInProgress = false;
+    }
     
+
+    async function insertionSort(arr) {
+      for (let i = 1; i < arr.length; i++) {
+        let key = arr[i];
+        let j = i - 1;
+    
+        while (j >= 0 && arr[j] > key) {
+          if (resetRequested) {
+            resetRequested = false;
+            return;
+          }
+    
+          arr[j + 1] = arr[j];
+          j = j - 1;
+          
+          drawArray(insertion = [true, j + 1]);
+          await sleep(delay.value);
+        }
+        arr[j + 1] = key;
+      }
+    }
+
+
     async function mergeSort(arr, left, right) {
       if (left < right) {
         const middle = Math.floor((left + right) / 2);
@@ -238,9 +268,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const pi = await partition(arr, low, high);
         await quickSort(arr, low, pi - 1);
         await quickSort(arr, pi + 1, high);
-      }
-      if (low >= high) {
-        enableInput();
       }
     }
 
@@ -315,11 +342,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
     }
     
-    
   
-    async function insertionSort(arr) {
-      // ... (insertionSort implementation) ...
-    }
   
     async function selectionSort(arr) {
       // ... (selectionSort implementation) ...
