@@ -3,7 +3,7 @@
   --dark-gray: #8892b0; /*main stuff text*/
   --light-blue: #61dafb; /*highlights/specialtext/icons*/
   --background: #0a192f; /*background*/
-  --highlight-color: #112b52; /*self-explanatory*/
+  --highlight-color: #112b52; 
 }
 ::selection {
   background: var(--highlight-color);
