@@ -332,6 +332,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
     async function bubbleSort(arr) {
       const n = arr.length;
+      let drawn = 0;
       const startTime = performance.now();
       for (let i = 0; i < n - 1; i++) {
         let swapped = false;
@@ -348,9 +349,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
             swapped = true;
   
-            const currentTime = performance.now();
+            const currentTime = performance.now() - (delay.value * drawn);
             timeTaken = (currentTime - startTime);
             drawArray(bubble = [true, j + 1]);
+            drawn++;
             await sleep(delay.value);
           }
         }
@@ -534,13 +536,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
       // Measure the width of the time taken label
       const timeTakenLabelWidth = ctx.measureText(", Time Taken: ").width;
     
-      // Draw time taken value in blue
       ctx.fillStyle = "#61dafb";
       ctx.font = "bold 20px NTR-Regular";
-      ctx.fillText(timeTaken.toFixed(2) + "ms", 10 + algoNameWidth + comparisonsLabelWidth + comparisonsWidth + timeTakenLabelWidth, textY);
-    
+
+      let displayTimeTaken = timeTaken;
+      let timeUnit = "ms";
+      if (timeTaken > 1000) {
+        displayTimeTaken = timeTaken / 1000;
+        timeUnit = "s";
+      }
+
+      ctx.fillText(displayTimeTaken.toFixed(2) + timeUnit, 10 + algoNameWidth + comparisonsLabelWidth + comparisonsWidth + timeTakenLabelWidth, textY);
+
       // Measure the width of the time taken value
-      const timeTakenWidth = ctx.measureText(timeTaken.toFixed(2) + "ms").width;
+      const timeTakenWidth = ctx.measureText(displayTimeTaken.toFixed(2) + timeUnit).width;
+
     
       // Draw array access label
       ctx.fillStyle = "#ccd6f6";
