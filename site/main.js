@@ -243,6 +243,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         time: 0,
         arrayAccess: 0,
       };
+      timeTaken = 0;
       drawText();
     }
 
@@ -505,7 +506,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function drawText() {
       const textHeight = 50;
       const textY = textHeight - 30; // Adjust the vertical position of the text
-      ctx.font = "20px NTR-Regular";
+      ctx.font = "bold 20px NTR-Regular";
     
       // Draw algorithm name
       ctx.fillStyle = "#ccd6f6";
@@ -515,6 +516,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       const algoNameWidth = ctx.measureText(`${metrics.algoName} - `).width;
     
       // Draw comparisons label
+      ctx.font = "20px NTR-Regular";
       ctx.fillText("Comparisons: ", 10 + algoNameWidth, textY);
     
       // Measure the width of the comparisons label
