@@ -258,3 +258,93 @@ footer {
 
 
 
+/* Mobile Styles */
+@media screen and (max-width: 767px) {
+  body {
+    font-size: 14px;
+  }
+
+  #intro {
+    margin-left: 5%;
+    padding-top: 10%;
+  }
+
+  .intro-title {
+    font-size: 36px;
+  }
+
+  .intro-description {
+    font-size: 16px;
+  }
+
+  #selection-buttons {
+    flex-direction: row;
+    top: auto;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+
+  .selection-button {
+    font-size: 1rem;
+  }
+
+  #sort,
+  #traverse {
+    margin-left: 5%;
+  }
+
+  .sort-title,
+  .traverse-title {
+    font-size: 32px;
+  }
+
+  #option-text {
+    font-size: 1.2rem;
+  }
+
+  select,
+  #delay,
+  #array-size {
+    font-size: 1rem;
+  }
+
+  #algo-frame {
+    width: 90vw;
+    height: 250px;
+  }
+
+  .control-buttons {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .button {
+    width: 120px;
+    height: 30px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  #algo-desc,
+  #algo-complexity {
+    font-size: 1rem;
+    display: block;
+    margin: 10px 0;
+  }
+
+  .time-complexity,
+  .space-complexity,
+  #algo-name {
+    font-size: 1.2rem;
+  }
+
+  footer {
+    position: static;
+    text-align: center;
+    margin-bottom: 0;
+  }
+}
+
