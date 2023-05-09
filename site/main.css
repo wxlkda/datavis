@@ -17,6 +17,13 @@
   src: local('NTR Regular'), url('./assets/NTR-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Coolvetica';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Coolvetica'), url('./assets/coolvetica.otf') format('opentype');
+}
+
 
 body {
     background-color: var(--background);

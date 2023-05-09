@@ -15,11 +15,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var minElementSize = 1;
     var maxElementSize = 100;
     var selected = 0;
+    var timeTaken = 0;
 
     var sortingInProgress = false;
     var resetRequested = false;
 
     var arr = [];
+    var metrics = {
+      algoName: "Bubble Sort",
+      comparisons: 0,
+      time: 0,
+      arrayAccess: 0,
+    };
 
     var algoInfo =
       {
@@ -61,6 +68,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       };
 
     arraySize.value = Math.floor(Math.random() * (100 - 2 + 1)) + 2;
+    drawText();
     createArray();
       
 
@@ -74,6 +82,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
     
     arraySize.addEventListener("input", () => {
+      metrics.algoName = `${algoSelect.value.substring(0,1).toUpperCase()}${algoSelect.value.substring(1)} Sort`;
       let value = parseInt(arraySize.value);
       if (isNaN(value) || value < 2) {
         value = 2;
@@ -94,6 +103,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     algoSelect.addEventListener("change", function() {
+      metrics.algoName = `${algoSelect.value.substring(0,1).toUpperCase()}${algoSelect.value.substring(1)} Sort`;
       resetArray();
       document.getElementById("algo-desc").innerHTML= 
       `
@@ -197,6 +207,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     async function startBubbleSort(arr) {
       sortingInProgress = true;
+      resetMetrics();
       await bubbleSort(arr);
       sortingInProgress = false;
     }
@@ -225,6 +236,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
       sortingInProgress = false;
     }
     
+    function resetMetrics() {
+      metrics = {
+        algoName: `${algoSelect.value.substring(0,1).toUpperCase()}${algoSelect.value.substring(1)} Sort`,
+        comparisons: 0,
+        time: 0,
+        arrayAccess: 0,
+      };
+      drawText();
+    }
 
     async function bogoSort(arr) {
       while (!isSorted(arr)) {
@@ -312,18 +332,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
     async function bubbleSort(arr) {
       const n = arr.length;
+      const startTime = performance.now();
       for (let i = 0; i < n - 1; i++) {
         let swapped = false;
         for (let j = 0; j < n - i - 1; j++) {
+          metrics.comparisons++;
           if (arr[j] > arr[j + 1]) {
             if (resetRequested) {
               resetRequested = false;
+              resetMetrics();
               return;
             }
-            // Swap elements
+            
+            metrics.arrayAccess += 2;
             [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
             swapped = true;
   
+            const currentTime = performance.now();
+            timeTaken = (currentTime - startTime);
             drawArray(bubble = [true, j + 1]);
             await sleep(delay.value);
           }
@@ -449,7 +475,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
           ) + minElementSize
         );
 
-
       drawArray();
     }
 
@@ -458,6 +483,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         resetRequested = true;
         sortingInProgress = false;
       }
+
+      resetMetrics();
       const arraySizeValue = parseInt(arraySize.value);
   
       arr = new Array(arraySizeValue)
@@ -472,16 +499,75 @@ document.addEventListener('DOMContentLoaded', (event) => {
       drawArray();
       enableInput();
     }
+
+    function drawText() {
+      const textHeight = 50;
+      const textY = textHeight - 30; // Adjust the vertical position of the text
+      ctx.font = "20px NTR-Regular";
     
-    function drawArray(bubble = [false, 0], quick = false, merge = false, insertion = false, selection = false, radix = false, bogo = false)  {
+      // Draw algorithm name
+      ctx.fillStyle = "#ccd6f6";
+      ctx.fillText(`${metrics.algoName} - `, 10, textY);
+    
+      // Measure the width of the algorithm name text
+      const algoNameWidth = ctx.measureText(`${metrics.algoName} - `).width;
+    
+      // Draw comparisons label
+      ctx.fillText("Comparisons: ", 10 + algoNameWidth, textY);
+    
+      // Measure the width of the comparisons label
+      const comparisonsLabelWidth = ctx.measureText("Comparisons: ").width;
+    
+      // Draw comparisons value in blue
+      ctx.fillStyle = "#61dafb";
+      ctx.font = "bold 20px NTR-Regular";
+      ctx.fillText(metrics.comparisons, 10 + algoNameWidth + comparisonsLabelWidth, textY);
+    
+      // Measure the width of the comparisons value
+      const comparisonsWidth = ctx.measureText(metrics.comparisons).width;
+    
+      // Draw time taken label
+      ctx.fillStyle = "#ccd6f6";
+      ctx.font = "20px NTR-Regular";
+      ctx.fillText(", Time Taken: ", 10 + algoNameWidth + comparisonsLabelWidth + comparisonsWidth, textY);
+    
+      // Measure the width of the time taken label
+      const timeTakenLabelWidth = ctx.measureText(", Time Taken: ").width;
+    
+      // Draw time taken value in blue
+      ctx.fillStyle = "#61dafb";
+      ctx.font = "bold 20px NTR-Regular";
+      ctx.fillText(timeTaken.toFixed(2) + "ms", 10 + algoNameWidth + comparisonsLabelWidth + comparisonsWidth + timeTakenLabelWidth, textY);
+    
+      // Measure the width of the time taken value
+      const timeTakenWidth = ctx.measureText(timeTaken.toFixed(2) + "ms").width;
+    
+      // Draw array access label
+      ctx.fillStyle = "#ccd6f6";
+      ctx.font = "20px NTR-Regular";
+      ctx.fillText(", Array Accesses: ", 10 + algoNameWidth + comparisonsLabelWidth + comparisonsWidth + timeTakenLabelWidth + timeTakenWidth, textY);
+    
+      // Measure the width of the array access label
+      const arrayAccessLabelWidth = ctx.measureText(", Array Accesses: ").width;
+    
+      // Draw array access value in blue
+      ctx.fillStyle = "#61dafb";
+      ctx.font = "bold 20px NTR-Regular";
+      ctx.fillText(metrics.arrayAccess, 10 + algoNameWidth + comparisonsLabelWidth + comparisonsWidth + timeTakenLabelWidth + timeTakenWidth + arrayAccessLabelWidth, textY);
+    }
+
+    
+    function drawArray(bubble = [false, 0], quick = false, merge = false, insertion = false, selection = false, radix = false, bogo = false) {
+      console.log(arr);
       const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
+      const canvasHeight = canvas.height - 30; // Subtract 50 pixels from the canvas height
     
       const barWidth = canvasWidth / arr.length;
       const maxBarHeight = maxElementSize;
       const heightFactor = canvasHeight / maxBarHeight;
     
-      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawText();
     
       arr.forEach((value, index) => {
         const barHeight = value * heightFactor;
@@ -491,10 +577,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             ctx.fillStyle = "red";
           }
         }
-        
+    
         ctx.fillRect(
           index * barWidth,
-          canvasHeight - barHeight,
+          canvas.height - barHeight, // Subtract 50 pixels from the bar height
           barWidth - 1,
           barHeight
         );
