@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         "quick": {
           "desc":'Quick sort is an efficient sorting algorithm that uses divide-and-conquer to organize elements in a list or array. It works by selecting a pivot element, partitioning the array into two sub-arrays (elements less than the pivot and elements greater than the pivot), and then recursively sorting the sub-arrays. The process is repeated until the entire list is sorted. Due to its efficiency, quick sort is commonly used in various applications and programming languages.',
           "time": ['n * log(n)', 'n * log(n)', 'n^2'],
-          "space": 'n'
+          "space": 'log(n)'
         },
         'merge': {
           "desc":'Merge sort is a stable, comparison-based sorting algorithm that employs the divide-and-conquer approach to sort a list or array. It works by recursively splitting the input into two equal halves, sorting each half individually, and then merging the sorted halves back together. Merge sort is known for its predictable O(n log n) time complexity and is widely used in various applications and programming languages.',
@@ -55,13 +55,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         },
         'bogo': {
           "desc": 'Bogo sort, also known as "stupid sort" or "slow sort", is a highly inefficient sorting algorithm that works by generating random permutations of the input list until it finds a sorted one. The algorithm is mostly used for educational or entertainment purposes, as it has an unbounded worst-case time complexity, making it impractical for real-world use.',
-          'time': ['n', 'n * n!', '∞'],
+          'time': ['n', '∞', 'n * n!'],
           "space": '1'
         }
       };
 
-      arraySize.value = Math.floor(Math.random() * (100 - 2 + 1)) + 2;
-      createArray();
+    arraySize.value = Math.floor(Math.random() * (100 - 2 + 1)) + 2;
+    createArray();
       
 
     
