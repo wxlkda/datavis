@@ -14,7 +14,7 @@
   font-family: 'NTR Regular';
   font-style: normal;
   font-weight: normal;
-  src: local('NTR Regular'), url('../assets/NTR-Regular.ttf') format('truetype');
+  src: local('NTR Regular'), url('./assets/NTR-Regular.ttf') format('truetype');
 }
 
 
@@ -257,9 +257,8 @@ footer {
 }
 
 
-
 /* Mobile Styles */
-@media screen and (max-width: 767px) {
+@media only screen and (max-width: 767px) {
   body {
     font-size: 14px;
   }
@@ -278,12 +277,7 @@ footer {
   }
 
   #selection-buttons {
-    flex-direction: row;
-    top: auto;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    justify-content: space-evenly;
+    display: none;
   }
 
   .selection-button {
@@ -311,7 +305,7 @@ footer {
   }
 
   #algo-frame {
-    width: 90vw;
+    width: 86vw;
     height: 250px;
   }
 
@@ -328,11 +322,15 @@ footer {
     margin-bottom: 10px;
   }
 
+  .flex-container {
+    flex-direction: column;
+  }
+
   #algo-desc,
   #algo-complexity {
     font-size: 1rem;
-    display: block;
     margin: 10px 0;
+    max-width: 86vw;
   }
 
   .time-complexity,
@@ -347,4 +345,3 @@ footer {
     margin-bottom: 0;
   }
 }
-
