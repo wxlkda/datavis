@@ -308,6 +308,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     async function quickSort(arr, low, high) {
+  
       if (low < high) {
         const pi = await partition(arr, low, high);
         await quickSort(arr, low, pi - 1);
@@ -335,6 +336,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
           metrics.comparisons++;
           if (resetRequested) {
             resetRequested = false;
+            resetMetrics();
             return;
           }
     
@@ -353,6 +355,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
       for (let i = 0; i < arr.length - 1; i++) {
         let minIdx = i;
         for (let j = i + 1; j < arr.length; j++) {
+          if (resetRequested) {
+            resetRequested = false;
+            resetMetrics();
+            return;
+          }
           metrics.arrayAccess++;
           if (arr[j] < arr[minIdx]) {
             metrics.comparisons++;
@@ -374,6 +381,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
       let maxExponent = Math.floor(Math.log10(maxVal)) + 1;
     
       for (let exponent = 0; exponent < maxExponent; exponent++) {
+        if (resetRequested) {
+          resetRequested = false;
+          resetMetrics();
+          return;
+        }
         let buckets = Array.from({ length: 10 }, () => []);
         for (let number of arr) {
           let digit = Math.floor((number / Math.pow(10, exponent)) % 10);
@@ -393,6 +405,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       while (!isSorted(arr)) {
         if (resetRequested) {
           resetRequested = false;
+          resetMetrics();
           return;
         }
         arr = shuffle(arr);
@@ -408,19 +421,38 @@ document.addEventListener('DOMContentLoaded', (event) => {
       let pivot = arr[high];
       metrics.arrayAccess++;
       let i = low - 1;
-    
+      if (resetRequested) {
+        resetRequested = false;
+        resetMetrics();
+        return;
+      }
       for (let j = low; j <= high - 1; j++) {
+        if (resetRequested) {
+          resetRequested = false;
+          resetMetrics();
+          return;
+        }
         metrics.comparisons++;
         if (arr[j] < pivot) {
           i++;
           [arr[i], arr[j]] = [arr[j], arr[i]];
           metrics.arrayAccess += 2;
+          if (resetRequested) {
+            resetRequested = false;
+            resetMetrics();
+            return;
+          }
           drawArray(true, high, i, j);
           await sleep(delay.value);
         }
       }
       [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
       metrics.arrayAccess += 2;
+      if (resetRequested) {
+        resetRequested = false;
+        resetMetrics();
+        return;
+      }
       drawArray();
       await sleep(delay.value);
     
