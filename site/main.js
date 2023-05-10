@@ -172,7 +172,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             enableInput();
             break;
         }
-        await markSortedArrayGreen();
       }
       drawArray();
     }
@@ -193,13 +192,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     async function startMergeSort(arr) {
       sortingInProgress = true;
+      resetMetrics();
       await mergeSort(arr, 0, arr.length - 1);
+      for (let i = 0; i < arr.length; i++) {
+        drawArray(i);
+        await sleep(delay.value);
+      }
       sortingInProgress = false;
     }
 
     async function startQuickSort(arr) {
       sortingInProgress = true;
+      resetMetrics();
       await quickSort(arr, 0, arr.length - 1);
+      for (let i = 0; i < arr.length; i++) {
+        drawArray(i);
+        await sleep(delay.value);
+      }
       sortingInProgress = false;
     }
 
@@ -207,39 +216,57 @@ document.addEventListener('DOMContentLoaded', (event) => {
       sortingInProgress = true;
       resetMetrics();
       await bubbleSort(arr);
+      for (let i = 0; i < arr.length; i++) {
+        drawArray(i);
+        await sleep(delay.value);
+      }
       sortingInProgress = false;
     }
 
     async function startInsertionSort(arr) {
       sortingInProgress = true;
+      resetMetrics();
       await insertionSort(arr);
+      for (let i = 0; i < arr.length; i++) {
+        drawArray(i);
+        await sleep(delay.value);
+      }
       sortingInProgress = false;
     }
 
     async function startSelectionSort(arr) {
       sortingInProgress = true;
+      resetMetrics();
       await selectionSort(arr);
+      for (let i = 0; i < arr.length; i++) {
+        drawArray(i);
+        await sleep(delay.value);
+      }
       sortingInProgress = false;
     }
 
     async function startRadixSort() {
       sortingInProgress = true;
+      resetMetrics();
       await radixSort(arr);
+      for (let i = 0; i < arr.length; i++) {
+        drawArray(i);
+        await sleep(delay.value);
+      }
       sortingInProgress = false;
     }
 
     async function startBogoSort(arr) {
       sortingInProgress = true;
+      resetMetrics();
       await bogoSort(arr);
+      for (let i = 0; i < arr.length; i++) {
+        drawArray(i);
+        await sleep(delay.value);
+      }
       sortingInProgress = false;
     }
 
-    async function markSortedArrayGreen() {
-      for (let i = 0; i < arr.length; i++) {
-        drawArray(i);
-        await sleep(20);
-      }
-    }
     
     function resetMetrics() {
       metrics = {
@@ -375,7 +402,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (arr[j] < pivot) {
           i++;
           [arr[i], arr[j]] = [arr[j], arr[i]];
-          drawArray();
+          drawArray(true, high, i, j);
           await sleep(delay.value);
         }
       }
@@ -582,6 +609,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
       arr.forEach((value, index) => {
         const barHeight = value * heightFactor;
         ctx.fillStyle = "#ccd6f6";
+        if (options.length == 4) {
+          if (options[0] && index == options[2]) {
+            ctx.fillStyle = "red";
+          }
+          if (options[0] && index == options[3]) {
+            ctx.fillStyle = "red";
+          }
+          if (options[0] && index == options[1]) {
+            ctx.fillStyle = "gray"; //pivot to gray
+          }
+        }
         if (options.length == 2) {
           if (options[0] && index === options[1]) { //Case where only 1 bar needs to be red
             ctx.fillStyle = "red";
