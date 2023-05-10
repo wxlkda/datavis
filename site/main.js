@@ -194,9 +194,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
       sortingInProgress = true;
       resetMetrics();
       await mergeSort(arr, 0, arr.length - 1);
-      for (let i = 0; i < arr.length; i++) {
-        drawArray(i);
-        await sleep(delay.value);
+      if (isSorted(arr)) {
+        await markArraySorted();
       }
       sortingInProgress = false;
     }
@@ -205,9 +204,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
       sortingInProgress = true;
       resetMetrics();
       await quickSort(arr, 0, arr.length - 1);
-      for (let i = 0; i < arr.length; i++) {
-        drawArray(i);
-        await sleep(delay.value);
+      if (isSorted(arr)) {
+        await markArraySorted();
       }
       sortingInProgress = false;
     }
@@ -216,9 +214,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
       sortingInProgress = true;
       resetMetrics();
       await bubbleSort(arr);
-      for (let i = 0; i < arr.length; i++) {
-        drawArray(i);
-        await sleep(delay.value);
+      if (isSorted(arr)) {
+        await markArraySorted();
       }
       sortingInProgress = false;
     }
@@ -227,9 +224,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
       sortingInProgress = true;
       resetMetrics();
       await insertionSort(arr);
-      for (let i = 0; i < arr.length; i++) {
-        drawArray(i);
-        await sleep(delay.value);
+      if (isSorted(arr)) {
+        await markArraySorted();
       }
       sortingInProgress = false;
     }
@@ -238,9 +234,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
       sortingInProgress = true;
       resetMetrics();
       await selectionSort(arr);
-      for (let i = 0; i < arr.length; i++) {
-        drawArray(i);
-        await sleep(delay.value);
+      if (isSorted(arr)) {
+        await markArraySorted();
       }
       sortingInProgress = false;
     }
@@ -249,9 +244,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
       sortingInProgress = true;
       resetMetrics();
       await radixSort(arr);
-      for (let i = 0; i < arr.length; i++) {
-        drawArray(i);
-        await sleep(delay.value);
+      if (isSorted(arr)) {
+        await markArraySorted();
       }
       sortingInProgress = false;
     }
@@ -260,14 +254,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
       sortingInProgress = true;
       resetMetrics();
       await bogoSort(arr);
-      for (let i = 0; i < arr.length; i++) {
-        drawArray(i);
-        await sleep(delay.value);
+      if (isSorted(arr)) {
+        await markArraySorted();
       }
       sortingInProgress = false;
     }
 
-    
+    async function markArraySorted() {
+      for (let i = 0; i < arr.length; i++) {
+        if (resetRequested) {
+          resetRequested = false;
+          return;
+        }
+        drawArray(i);
+        await sleep(delay.value);
+      }
+    }
     function resetMetrics() {
       metrics = {
         algoName: `${algoSelect.value.substring(0,1).toUpperCase()}${algoSelect.value.substring(1)} Sort`,
