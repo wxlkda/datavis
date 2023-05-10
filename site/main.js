@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
           return;
         }
         drawArray(i);
-        await sleep(delay.value);
+        await sleep(20);
       }
     }
     function resetMetrics() {
@@ -327,15 +327,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
     async function insertionSort(arr) {
       for (let i = 1; i < arr.length; i++) {
         let key = arr[i];
+        metrics.arrayAccess++;
         let j = i - 1;
     
         while (j >= 0 && arr[j] > key) {
+          metrics.arrayAccess++;
+          metrics.comparisons++;
           if (resetRequested) {
             resetRequested = false;
             return;
           }
     
           arr[j + 1] = arr[j];
+          metrics.arrayAccess++;
           j = j - 1;
           
           drawArray(true, j + 1);
@@ -349,12 +353,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
       for (let i = 0; i < arr.length - 1; i++) {
         let minIdx = i;
         for (let j = i + 1; j < arr.length; j++) {
+          metrics.arrayAccess++;
           if (arr[j] < arr[minIdx]) {
+            metrics.comparisons++;
             minIdx = j;
           }
         }
         if (minIdx !== i) {
           [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];
+          metrics.arrayAccess += 2;
     
           drawArray();
           await sleep(delay.value);
@@ -375,6 +382,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         let newArray = [].concat(...buckets);
         for (let i = 0; i < arr.length; i++) {
           arr[i] = newArray[i];
+          metrics.arrayAccess++;
         }
         drawArray();
         await sleep(delay.value);
@@ -398,17 +406,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
     /* -- METHODS USED IN ALGOS -- */
     async function partition(arr, low, high) {
       let pivot = arr[high];
+      metrics.arrayAccess++;
       let i = low - 1;
     
       for (let j = low; j <= high - 1; j++) {
+        metrics.comparisons++;
         if (arr[j] < pivot) {
           i++;
           [arr[i], arr[j]] = [arr[j], arr[i]];
+          metrics.arrayAccess += 2;
           drawArray(true, high, i, j);
           await sleep(delay.value);
         }
       }
       [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+      metrics.arrayAccess += 2;
       drawArray();
       await sleep(delay.value);
     
@@ -417,6 +429,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function isSorted(arr) {
       for (let i = 1; i < arr.length; i++) {
+        metrics.arrayAccess++;
+        metrics.comparisons++;
         if (arr[i - 1] > arr[i]) {
           return false;
         }
@@ -428,6 +442,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
+        metrics.arrayAccess += 2;
       }
       return arr;
     }
@@ -441,9 +456,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
       for (let i = 0; i < n1; i++) {
         leftArr[i] = arr[left + i];
+        metrics.arrayAccess++;
       }
       for (let j = 0; j < n2; j++) {
         rightArr[j] = arr[mid + 1 + j];
+        metrics.arrayAccess++;
       }
     
       let i = 0;
@@ -451,11 +468,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
       let k = left;
     
       while (i < n1 && j < n2) {
+        metrics.comparisons++;
+        metrics.arrayAccess++;
         if (leftArr[i] <= rightArr[j]) {
           arr[k] = leftArr[i];
+          metrics.arrayAccess++;
           i++;
         } else {
           arr[k] = rightArr[j];
+          metrics.arrayAccess++;
           j++;
         }
         k++;
@@ -463,18 +484,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
         await sleep(delay.value);
         drawArray();
       }
-    
+      metrics.comparisons++;
       while (i < n1) {
         arr[k] = leftArr[i];
+        metrics.arrayAccess++;
         i++;
         k++;
     
         await sleep(delay.value);
         drawArray();
       }
-    
+      metrics.comparisons++;
       while (j < n2) {
         arr[k] = rightArr[j];
+        metrics.arrayAccess++;
         j++;
         k++;
     
