@@ -2,6 +2,8 @@
 # Data Visualizer
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+**NOTE: Still working on this project**
+
 This program is a visualization of different algorithmic design techniques in the world of computer science. Some of these algorithms include:
 
  - **Array Sorting Algorithms**:
